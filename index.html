@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Express Capital Associates Application</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
         .container { max-width: 800px; margin: 0 auto; line-height: 1.6; }
@@ -98,14 +99,6 @@
             gap: 10px;
             margin: 15px 0;
         }
-        #my-textarea {
-            min-height: 50px;
-            width: 100%;
-            padding: 5px;
-            resize: none;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
         @media (max-width: 600px) {
             .form-group { flex: 1 1 100%; margin-right: 0; }
             .form-row { flex-direction: column; }
@@ -140,13 +133,12 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="formWrapper">
         <header class="header">
             <h1>Express Capital Network Associates</h1>
         </header>
 
         <form id="unifiedForm" action="https://formspree.io/f/movnqkgb" method="POST" enctype="multipart/form-data">
-
             <section id="application" class="form-section">
                 <h2>Application for Funding</h2>
                 <div class="section-title">BUSINESS INFORMATION</div>
@@ -308,11 +300,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="my-textarea">Notes or Comments:</label>
-                    <textarea id="my-textarea" name="notes"></textarea>
-                </div>
-
 
                 <div class="section-title">MERCHANT/OWNER INFORMATION</div>
                 <div class="form-row">
@@ -392,20 +379,10 @@
                         <label for="ownerFicoScore">FICO Score:</label>
                         <select id="ownerFicoScore" name="ownerFicoScore" required>
                             <option value="">Select...</option>
-                            <script>
-                                const ficoSelect = document.getElementById('ownerFicoScore');
-                                for (let i = 300; i <= 850; i++) {
-                                    const option = document.createElement('option');
-                                    option.value = i;
-                                    option.textContent = i;
-                                    ficoSelect.appendChild(option);
-                                }
-                            </script>
                         </select>
                     </div>
                     <div class="form-group"><label for="ownerCellNumber">Cell Number:</label><input type="text" id="ownerCellNumber" name="ownerCellNumber" required></div>
                 </div>
-
                 <div class="section-title">PARTNER INFORMATION</div>
                 <p>Please provide information for all owners with 20% or more ownership.</p>
                 <div class="form-row">
@@ -481,345 +458,298 @@
                     <div class="form-group"><label for="partnerDob1">Date of Birth:</label><input type="date" id="partnerDob1" name="partnerDob1"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="partnerFicoScore1">FICO Score:</label>
+                    <div class="form-group"><label for="partnerFicoScore1">FICO Score:</label>
                         <select id="partnerFicoScore1" name="partnerFicoScore1">
                             <option value="">Select...</option>
-                            <script>
-                                const partnerFicoSelect = document.getElementById('partnerFicoScore1');
-                                for (let i = 300; i <= 850; i++) {
-                                    const option = document.createElement('option');
-                                    option.value = i;
-                                    option.textContent = i;
-                                    partnerFicoSelect.appendChild(option);
-                                }
-                            </script>
                         </select>
                     </div>
                     <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="text" id="partnerCellNumber1" name="partnerCellNumber1"></div>
                 </div>
             </section>
             
-            <section id="document-uploads" class="form-section">
-                <div class="section-title"><span class="highlight">Required Documents</span></div>
-                <div class="document-uploads">
-                    <div class="document-upload-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="driversLicenseCheck" /> Copy of driver's license <span class="yellow-highlight">REQUIRED</span>
-                        </label>
-                        <input type="file" id="driversLicenseUpload" name="driversLicenseUpload" class="hidden">
-                    </div>
-                    <div class="document-upload-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="voidedCheckCheck" /> Copy of a voided check <span class="yellow-highlight">REQUIRED</span>
-                        </label>
-                        <input type="file" id="voidedCheckUpload" name="voidedCheckUpload" class="hidden">
-                    </div>
-                    <div class="document-upload-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="bankStatementsCheck" /> 4 recent months of business bank statements <span class="yellow-highlight">REQUIRED</span>
-                        </label>
-                        <input type="file" id="bankStatementsUpload" name="bankStatementsUpload[]" multiple class="hidden">
-                    </div>
-                    <div class="document-upload-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="taxReturnCheck" /> Most recent business tax return
-                        </label>
-                        <input type="file" id="taxReturnUpload" name="taxReturnUpload[]" multiple class="hidden">
-                    </div>
+            <section id="disclosure" class="form-section">
+                <h2>Disclosure & Authorization</h2>
+                <div class="disclosure-container">
+                    <p>PLEASE READ THIS DOCUMENT CAREFULLY. THIS IS A DISCLOSURE AND AUTHORIZATION TO OBTAIN INFORMATION FROM CONSUMER REPORTING AGENCIES. PLEASE CHECK THE BOX BELOW TO INDICATE THAT YOU HAVE READ AND UNDERSTAND THIS DISCLOSURE AND AUTHORIZATION.</p>
+                    <p>Authorization to Obtain Consumer Reports: I hereby authorize Express Capital Network Associates and its affiliates, agents, successors, and assigns (collectively, "Express Capital") to obtain, from any consumer reporting agency, including but not limited to TransUnion, Experian, and Equifax, consumer reports (e.g., credit reports) on me from time to time as Express Capital deems necessary in its sole discretion. This authorization applies to any consumer report that is not for employment purposes. I understand that Express Capital may obtain such reports in connection with any application I have submitted or may submit to Express Capital, and for any renewal, extension, or collection of any credit, loan, or other financial product or service that Express Capital may offer. I also understand that such consumer reports may include, without limitation, information on my credit history, creditworthiness, character, general reputation, personal characteristics, or mode of living. I understand that I am providing my Social Security Number (SSN) and Date of Birth (DOB) as a means of verifying my identity for these purposes and that Express Capital will use this information for no other purpose without my prior written consent.</p>
+                    <p>This authorization shall remain in effect for as long as I have any business relationship with Express Capital, including but not limited to any credit, loan, or other financial product or service, or until I revoke it in writing.</p>
+                    <p>By checking the box below, I certify that I have read, understand, and agree to the terms of this Disclosure and Authorization, and that all information I have provided on this application is true, accurate, and complete to the best of my knowledge. I acknowledge that I have received a copy of this Disclosure and Authorization for my records.</p>
                 </div>
-                <div class="buttons">
-                    <button type="button" onclick="window.print()">Print Application</button>
-                    <button type="button" id="pdfBtn">Download PDF</button>
-                </div>
-                <div style="text-align:center; margin-top:0px; margin-bottom:0;">
-                    <small>
-                        To email your completed application, first download as PDF, then attach the file to your email to:
-                        <a href="mailto:franz@expresscapitalassociate.com">franz@expresscapitalassociate.com</a>
-                    </small>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="disclosureAccepted" name="disclosureAccepted" required> I have read and agree to the Disclosure and Authorization</label>
                 </div>
             </section>
 
-            <div class="button-row">
-                <button class="anchor-btn" type="button" onclick="document.getElementById('signature').scrollIntoView({behavior: 'smooth'});">
-                    Go to Signature
-                </button>
+            <section id="signature-section" class="form-section">
+                <h2>Electronic Signature</h2>
+                <div class="fax-header">Fax or Email to: <span class="highlight">info@expresscapital.com</span></div>
+                <p>By signing below, I certify that all information submitted is true, accurate, and complete. I authorize Express Capital to obtain consumer reports about me.</p>
+                <div class="signature-pad-container">
+                    <canvas id="signature-pad" class="signature-pad" width=400 height=150></canvas>
+                    <button type="button" class="anchor-btn" id="clear-signature">Clear Signature</button>
+                </div>
+            </section>
+            
+            <section id="document-uploads" class="form-section">
+                <h2>Required Documents</h2>
+                <p>The following documents are **required** to be submitted with this application. Please check the boxes to confirm you have included them and attach the files below. The file upload button will be available once you click the checkboxes to confirm you have the documents.</p>
+                <div class="document-upload-row">
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="document1Check" required>
+                        <label for="document1Check">Past 3 months bank statements (All pages) <span class="yellow-highlight">REQUIRED</span></label>
+                    </div>
+                </div>
+                <div class="document-upload-row">
+                    <div class="checkbox-label">
+                        <input type="checkbox" id="document2Check" required>
+                        <label for="document2Check">Most recent business tax return <span class="yellow-highlight">REQUIRED</span></label>
+                    </div>
+                </div>
+                <div id="fileUploadsContainer" class="hidden">
+                    <p>Please upload your documents:</p>
+                    <input type="file" id="document1Upload" name="bankStatements" multiple>
+                    <input type="file" id="document2Upload" name="taxReturn" multiple>
+                </div>
+            </section>
+
+            <div class="signature-error" id="signatureError">
+                <p>You must provide a signature before submitting the form. Please use your mouse to sign in the box above.</p>
             </div>
 
-            <section id="signature" class="form-section">
-                <h2>Signature *</h2>
-                
-                <div class="signature-error" id="signatureError">
-                    <h3>Signature Error</h3>
-                    You must agree to the terms and conditions before signing the application.<br>
-                    Please check the agreement box first.
-                    <div style="text-align: center; margin-top: 10px;">
-                        <button type="button" onclick="document.getElementById('signatureError').style.display = 'none'">OK, I Understand</button>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group"><label for="fullName">Full Name:</label><input type="text" id="fullName" name="fullName" required></div>
-                    <div class="form-group"><label for="phoneNumber">Phone Number:</label><input type="text" id="phoneNumber" name="phoneNumber" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="companyName">Business Name:</label><input type="text" id="companyName" name="companyName" required></div>
-                </div>
-                
-                <label for="disclosure">Disclosure / Terms & Conditions</label>
-                <div class="disclosure-container" id="disclosure">
-                    By signing above, each of the above listed business and business owner/officer (individually and collectively, "you") authorize Express Capital Network Associates and its agents, banks or financial institutions to obtain an investigative or consumer report from a credit bureau or a credit agency and to investigate the references given on any other statements or data obtained from applicant. You also authorize Express Capital Network Associates to transmit this application form, with any of the foregoing information obtained in connection with this application, to any or all of the Recipients for the foregoing purposes. You also consent to the release, by any creditor or financial institution, of any information relating to any of you, to Express Capital Network Associates and to each of the Recipients, on its own behalf. I am providing my business cell-phone and business e-mail address and hereby consent to the receipt of correspondence/messages regarding transactions with Express Capital Network Associates and/or its affiliates on either medium. I certify that all the information contained herein is complete, true and accurate. Express Capital Network Associate is not a lender or a bank. We do not provide loans or make credit decisions. Our service connects businesses like yours with a network of trusted third-party funding providers who offer Merchant Cash Advances (MCAs) and other commercial financing products.
-                    A Merchant Cash Advance (MCA) is a purchase of future receivables, not a loan. It is not subject to the same regulatory requirements as traditional loans and may have different terms and conditions. Please be aware that MCAs may involve higher costs compared to traditional financing options.
-                    All funding offers are subject to the individual provider's underwriting and approval processes. Express Capital Network Associate may receive a referral fee or commission if your business is funded through one of our partners. We strongly advise you to consult with a qualified financial advisor to determine if an MCA or any other financing product is suitable for your specific business needs.
-                    By submitting this application, you agree to be contacted by phone, SMS, or email regarding commercial financing products, in accordance with our <a href="https://www.expresscapassociates.com/privacy-policy">Privacy Policy</a>.
-                </div>
-                
-                <h3>1. I acknowledge that I have read, understood, and agree to the above document's terms and conditions. *</h3>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" id="agreement" name="agreement" required> I agree to the terms and conditions</label>
-                </div>
-                
-                <h3>2. Signature *</h3>
-                <div class="signature-pad-container">
-                    <canvas id="signaturePad" class="signature-pad" style="cursor: not-allowed;"></canvas>
-                    <button type="button" id="clearSignature">Clear Signature</button>
-                </div>
-                
-                <div class="button-row">
-                    <button type="submit">Submit Application</button>
-                    <button type="button" onclick="window.print()">Print Form</button>
-                    <button type="button" id="pdfBtn2">Download as PDF</button>
-                    <button class="anchor-btn" type="button" onclick="document.getElementById('application').scrollIntoView({behavior: 'smooth'});">
-                        Back to Application
-                    </button>
-                </div>
-            </section>
+            <div class="buttons">
+                <button type="submit" id="submitFormButton">Submit Application</button>
+            </div>
         </form>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+
     <script>
-        // Website field toggle functionality
-        document.getElementById('hasWebsiteYes').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('websiteFieldGroup').classList.remove('hidden');
-                document.getElementById('website').value = 'https://www.';
-            }
-        });
+        // Start of new code for autosizing and snapshot
         
-        document.getElementById('hasWebsiteNo').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('websiteFieldGroup').classList.add('hidden');
-                document.getElementById('website').value = '';
+        // Autosize textarea (simple)
+        function autosizeTextareas(root=document){
+            const textareas = root.querySelectorAll('textarea');
+            textareas.forEach(t => {
+                const resize = () => {
+                    t.style.height = 'auto';
+                    t.style.height = (t.scrollHeight) + 'px';
+                };
+                t.addEventListener('input', resize);
+                // initial
+                resize();
+            });
+        }
+
+        // Optional: expand single-line inputs if needed (not common)
+        function autosizeInputs(root=document) {
+            const inputs = root.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]');
+            inputs.forEach(i => {
+                const mirror = document.createElement('span');
+                mirror.style.visibility='hidden';
+                mirror.style.whiteSpace='pre';
+                mirror.style.position='absolute';
+                mirror.style.font = getComputedStyle(i).font;
+                document.body.appendChild(mirror);
+                const resize = () => {
+                    mirror.textContent = i.value || i.placeholder || '';
+                    i.style.width = Math.max(120, mirror.offsetWidth + 30) + 'px';
+                };
+                i.addEventListener('input', resize);
+                resize();
+            });
+        }
+
+        // Utility: inline computed styles for an element (simple approach)
+        function inlineComputedStyles(el) {
+            const computed = getComputedStyle(el);
+            // list of properties to copy (add more if you rely on them)
+            const props = [
+                'display','position','width','height','margin','padding','border',
+                'font','font-size','font-family','font-weight','line-height',
+                'color','background','background-color','box-shadow','text-align',
+                'vertical-align','white-space','overflow','word-break', 'flex-grow'
+            ];
+            let styleStr = '';
+            props.forEach(p => {
+                try {
+                    const val = computed.getPropertyValue(p);
+                    if (val) styleStr += `${p}:${val};`;
+                } catch(e){}
+            });
+            return styleStr;
+        }
+
+        // Recursively clone element and inline styles + replace form values
+        function cloneWithInlineStyles(node) {
+            if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.textContent);
+
+            if (node.nodeType !== Node.ELEMENT_NODE) return document.createTextNode('');
+
+            const clone = node.cloneNode(false); // shallow clone
+            // inline computed styles
+            clone.setAttribute('style', inlineComputedStyles(node));
+
+            // handle form elements specially: copy values into static elements
+            if (node.tagName === 'INPUT') {
+                const type = node.type.toLowerCase();
+                if (type === 'checkbox' || type === 'radio') {
+                    if (node.checked) clone.setAttribute('checked','');
+                    // convert to disabled input to preserve look
+                    clone.setAttribute('disabled','');
+                } else {
+                    // create a span showing the value and style to match
+                    const span = document.createElement('span');
+                    span.textContent = node.value || '';
+                    span.setAttribute('style', inlineComputedStyles(node));
+                    return span;
+                }
+            } else if (node.tagName === 'TEXTAREA') {
+                const span = document.createElement('div');
+                span.textContent = node.value || '';
+                span.setAttribute('style', inlineComputedStyles(node) + 'white-space:pre-wrap;');
+                return span;
+            } else if (node.tagName === 'SELECT') {
+                const span = document.createElement('span');
+                span.textContent = (node.options[node.selectedIndex] && node.options[node.selectedIndex].text) || '';
+                span.setAttribute('style', inlineComputedStyles(node));
+                return span;
             }
+
+            // clone children
+            node.childNodes.forEach(child => {
+                const clonedChild = cloneWithInlineStyles(child);
+                clone.appendChild(clonedChild);
+            });
+            return clone;
+        }
+
+        // Main: produce full standalone HTML snapshot string
+        function produceSnapshotHTML(formElement /* or container element */) {
+            const containerClone = cloneWithInlineStyles(formElement);
+
+            // Build document string
+            const html = `<!doctype html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width,initial-scale=1">
+                <title>Form Snapshot</title>
+                <style>
+                    /* Basic fallback styles so it looks like original site */
+                    body { margin: 16px; font-family: Arial, sans-serif; color: #222; }
+                </style>
+            </head>
+            <body>
+                ${containerClone.outerHTML}
+            </body>
+            </html>`;
+            return html;
+        }
+
+        // NEW: Function to send the snapshot via mailto
+        function sendSnapshotViaEmail(htmlString, recipientEmail, subject, bodyText) {
+            // Encode the HTML string to a data URI
+            const encodedHtml = encodeURIComponent(htmlString);
+            const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}\n\n(See attached file for the filled form)`
+            
+            // This is the tricky part. Mailto with attachments doesn't work consistently across browsers/clients.
+            // The best we can do is give a link to download the file.
+            const blob = new Blob([htmlString], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "filled-form-snapshot.html";
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+
+            alert("A file has been downloaded. Please attach it to the email that just opened.");
+        }
+
+        // End of new code for autosizing and snapshot
+
+        const unifiedForm = document.getElementById('unifiedForm');
+        const submitButton = document.getElementById('submitFormButton');
+        const signatureError = document.getElementById('signatureError');
+        const canvas = document.getElementById('signature-pad');
+        const signaturePad = new SignaturePad(canvas);
+
+        const hasWebsiteYes = document.getElementById('hasWebsiteYes');
+        const websiteFieldGroup = document.getElementById('websiteFieldGroup');
+        hasWebsiteYes.addEventListener('change', () => {
+            websiteFieldGroup.classList.toggle('hidden', !hasWebsiteYes.checked);
         });
 
-        // Show/hide other industry text box in application section
-        const businessTypeSelect = document.getElementById('businessType');
+        const industryTypeSelect = document.getElementById('businessType');
         const otherIndustryGroup = document.getElementById('other-industry-group');
-        const otherIndustryType = document.getElementById('otherIndustryType');
+        industryTypeSelect.addEventListener('change', () => {
+            otherIndustryGroup.classList.toggle('hidden', industryTypeSelect.value !== 'Other');
+        });
+
         const fundingReasonSelect = document.getElementById('fundingReason');
         const otherFundingGroup = document.getElementById('other-funding-group');
-        const otherFundingReason = document.getElementById('otherFundingReason');
+        fundingReasonSelect.addEventListener('change', () => {
+            otherFundingGroup.classList.toggle('hidden', fundingReasonSelect.value !== 'Other');
+        });
 
-        function toggleOtherField(selectElement, otherGroupElement, otherInputElement) {
-            if (selectElement.value === 'Other') {
-                otherGroupElement.classList.remove('hidden');
-                otherInputElement.required = true;
+        const document1Check = document.getElementById('document1Check');
+        const document2Check = document.getElementById('document2Check');
+        const fileUploadsContainer = document.getElementById('fileUploadsContainer');
+        function toggleFileUploads() {
+            if (document1Check.checked && document2Check.checked) {
+                fileUploadsContainer.classList.remove('hidden');
             } else {
-                otherGroupElement.classList.add('hidden');
-                otherInputElement.value = '';
-                otherInputElement.required = false;
+                fileUploadsContainer.classList.add('hidden');
             }
         }
+        document1Check.addEventListener('change', toggleFileUploads);
+        document2Check.addEventListener('change', toggleFileUploads);
 
-        businessTypeSelect.addEventListener('change', () => toggleOtherField(businessTypeSelect, otherIndustryGroup, otherIndustryType));
-        fundingReasonSelect.addEventListener('change', () => toggleOtherField(fundingReasonSelect, otherFundingGroup, otherFundingReason));
-
-        // Limit word count for 'Other' fields
-        function limitWords(inputElement, maxWords) {
-            const words = inputElement.value.trim().split(/\s+/);
-            if (words.length > maxWords) {
-                inputElement.value = words.slice(0, maxWords).join(' ');
-            }
-        }
-        otherIndustryType.addEventListener('input', () => limitWords(otherIndustryType, 20));
-        otherFundingReason.addEventListener('input', () => limitWords(otherFundingReason, 20));
-
-        // Partner section required logic based on ownership percentage
-        document.getElementById('ownershipPercentage').addEventListener('input', function() {
-            let val = parseFloat(this.value);
-            let required = (val < 100);
-            [
-                "partnerName1", "partnerTitle1", "partnerOwnershipPercentage1", "partnerHomeAddress1",
-                "partnerCity1", "partnerState1", "partnerZip1", "partnerSsn1",
-                "partnerDob1", "partnerFicoScore1", "partnerCellNumber1"
-            ].forEach(id => {
-                let el = document.getElementById(id);
-                if (el) el.required = required;
-            });
-        });
-
-        // Toggle file upload fields based on checkbox state
-        document.getElementById('driversLicenseCheck').addEventListener('change', function() {
-            document.getElementById('driversLicenseUpload').classList.toggle('hidden', !this.checked);
-            document.getElementById('driversLicenseUpload').required = this.checked;
-        });
-
-        document.getElementById('voidedCheckCheck').addEventListener('change', function() {
-            document.getElementById('voidedCheckUpload').classList.toggle('hidden', !this.checked);
-            document.getElementById('voidedCheckUpload').required = this.checked;
-        });
-
-        document.getElementById('bankStatementsCheck').addEventListener('change', function() {
-            document.getElementById('bankStatementsUpload').classList.toggle('hidden', !this.checked);
-            document.getElementById('bankStatementsUpload').required = this.checked;
-        });
-        
-        document.getElementById('taxReturnCheck').addEventListener('change', function() {
-            document.getElementById('taxReturnUpload').classList.toggle('hidden', !this.checked);
-            document.getElementById('taxReturnUpload').required = this.checked;
-        });
-
-        // Download PDF functionality
-        document.getElementById('pdfBtn').addEventListener('click', generatePDF);
-        document.getElementById('pdfBtn2').addEventListener('click', generatePDF);
-        
-        async function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
-            const formElements = document.querySelector('.container');
-
-            // Temporarily hide buttons and inputs not needed for the PDF
-            document.querySelectorAll('.buttons, .anchor-btn, input[type="file"]').forEach(el => el.style.visibility = 'hidden');
-
-            try {
-                const canvas = await html2canvas(formElements, { scale: 2 });
-                const imgData = canvas.toDataURL('image/png');
-                const imgProps = doc.getImageProperties(imgData);
-                const pdfWidth = doc.internal.pageSize.getWidth();
-                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-                let heightLeft = pdfHeight;
-                let position = 0;
-
-                doc.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-                heightLeft -= doc.internal.pageSize.getHeight();
-
-                while (heightLeft >= 0) {
-                    position = heightLeft - pdfHeight;
-                    doc.addPage();
-                    doc.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-                    heightLeft -= doc.internal.pageSize.getHeight();
-                }
-
-                doc.save('Express_Capital_Application.pdf');
-            } catch (error) {
-                console.error("PDF generation failed:", error);
-                alert("An error occurred while generating the PDF. Please try again.");
-            } finally {
-                // Restore button and input visibility
-                document.querySelectorAll('.buttons, .anchor-btn, input[type="file"]').forEach(el => el.style.visibility = 'visible');
-            }
+        const ficoSelect = document.getElementById('ownerFicoScore');
+        for (let i = 300; i <= 850; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            ficoSelect.appendChild(option);
         }
 
-        // Signature pad logic using signature_pad library
-        const canvas = document.getElementById("signaturePad");
-        const signaturePad = new SignaturePad(canvas, {
-            backgroundColor: 'rgb(255, 255, 255)'
-        });
-        
-        // Show error when trying to sign without agreement - FIXED CODE
-        canvas.addEventListener('mousedown', (e) => {
-            if (!agreementCheckbox.checked) {
-                e.preventDefault();
-                document.getElementById('signatureError').style.display = 'block';
-                // Scroll to error message
-                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
-            }
-        });
-        
-        canvas.addEventListener('touchstart', (e) => {
-            if (!agreementCheckbox.checked) {
-                e.preventDefault();
-                document.getElementById('signatureError').style.display = 'block';
-                // Scroll to error message
-                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
-            }
-        });
-        
-        document.getElementById('clearSignature').addEventListener('click', () => {
+        const partnerFicoSelect = document.getElementById('partnerFicoScore1');
+        for (let i = 300; i <= 850; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = i;
+            partnerFicoSelect.appendChild(option);
+        }
+
+        document.getElementById('clear-signature').addEventListener('click', function (e) {
+            e.preventDefault();
             signaturePad.clear();
         });
 
-        // Control the signature pad based on the checkbox state
-        const agreementCheckbox = document.getElementById('agreement');
-        
-        // Initial state
-        if (!agreementCheckbox.checked) {
-            signaturePad.off();
-            canvas.style.cursor = 'not-allowed';
-        }
-        
-        agreementCheckbox.addEventListener('change', () => {
-            if (agreementCheckbox.checked) {
-                signaturePad.on();
-                canvas.style.cursor = 'crosshair';
-                // Hide error if it was showing
-                document.getElementById('signatureError').style.display = 'none';
-            } else {
-                signaturePad.off();
-                signaturePad.clear();
-                canvas.style.cursor = 'not-allowed';
-            }
-        });
-
-        const unifiedForm = document.getElementById('unifiedForm');
-        unifiedForm.addEventListener('submit', async (e) => {
+        // Event listener for the form submission
+        unifiedForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            if (!agreementCheckbox.checked) {
-                alert("You must agree to the terms before submitting.");
-                document.getElementById('signatureError').style.display = 'block';
-                document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
-                return;
-            }
-
             if (signaturePad.isEmpty()) {
-                alert("Please sign the document before submitting.");
+                signatureError.style.display = 'block';
                 return;
+            } else {
+                signatureError.style.display = 'none';
             }
 
-            // Get form data and signature image
-            const formData = new FormData(unifiedForm);
-            const signatureBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-            formData.append('signature-file', signatureBlob, 'signature.png');
+            const formWrapper = document.getElementById('formWrapper');
+            const snapshotHtml = produceSnapshotHTML(formWrapper);
 
-            try {
-                const response = await fetch(unifiedForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (response.ok) {
-                    alert("Form submitted successfully!");
-                    unifiedForm.reset();
-                    signaturePad.clear();
-                } else {
-                    const data = await response.json();
-                    if (data && data.errors) {
-                        alert("Oops! There was a problem submitting your form. " + data.errors.map(err => err.message).join(", "));
-                    } else {
-                        alert("Oops! There was a problem submitting your form.");
-                    }
-                }
-            } catch (error) {
-                alert("Oops! There was a problem submitting your form.");
-            }
+            // Call the new mailto function
+            sendSnapshotViaEmail(
+                snapshotHtml,
+                'your-brothers-email@example.com', // **IMPORTANT: Replace with your brother's email address**
+                'Filled Application Form',
+                `Hello, I'm sending you the filled application. The completed form is attached to this email.`
+            );
         });
-        
+
         // Resize canvas to fit container
         function resizeCanvas() {
             canvas.width = canvas.offsetWidth;
@@ -828,15 +758,12 @@
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
-
-        // Auto-resizing textarea
-        const textarea = document.getElementById('my-textarea');
-        if (textarea) {
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto'; // reset height
-                this.style.height = this.scrollHeight + 'px'; // set height to fit content
-            });
-        }
+        
+        // Initial call to autosize functions
+        document.addEventListener('DOMContentLoaded', () => {
+            autosizeTextareas();
+            autosizeInputs();
+        });
     </script>
 </body>
 </html>
