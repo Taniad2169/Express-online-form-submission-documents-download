@@ -98,13 +98,29 @@
             gap: 10px;
             margin: 15px 0;
         }
+        /* Auto-resize styles for all inputs and textareas */
+        .auto-resize {
+            min-width: 80px;
+            max-width: 100%;
+            width: 460px;
+            min-height: 38px;
+            padding: 8px;
+            resize: none;
+            overflow: hidden;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: width 0.2s, height 0.2s;
+        }
         #my-textarea {
+            min-width: 80px;
+            max-width: 100%;
+            width: 460px;
             min-height: 50px;
-            width: 100%;
             padding: 5px;
             resize: none;
             overflow: hidden;
             box-sizing: border-box;
+            transition: width 0.2s, height 0.2s;
         }
         @media (max-width: 600px) {
             .form-group { flex: 1 1 100%; margin-right: 0; }
@@ -116,6 +132,11 @@
             .button-row button, .button-row .anchor-btn {
                 width: 100%;
                 margin: 5px 0;
+            }
+            .auto-resize, #my-textarea {
+                width: 100% !important;
+                min-width: 0 !important;
+                max-width: 100% !important;
             }
         }
         @media print {
@@ -151,18 +172,18 @@
                 <h2>Application for Funding</h2>
                 <div class="section-title">BUSINESS INFORMATION</div>
                 <div class="form-row">
-                    <div class="form-group"><label for="legalCorporateName">Legal Corporate Name:</label><input type="text" id="legalCorporateName" name="legalCorporateName" required></div>
-                    <div class="form-group"><label for="dba">DBA (Doing Business As):</label><input type="text" id="dba" name="dba"></div>
+                    <div class="form-group"><label for="legalCorporateName">Legal Corporate Name:</label><input type="text" id="legalCorporateName" name="legalCorporateName" required class="auto-resize"></div>
+                    <div class="form-group"><label for="dba">DBA (Doing Business As):</label><input type="text" id="dba" name="dba" class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="physicalAddress">Physical Address:</label><input type="text" id="physicalAddress" name="physicalAddress" required></div>
-                    <div class="form-group"><label for="telephoneNumber">Telephone Number:</label><input type="text" id="telephoneNumber" name="telephoneNumber" required></div>
+                    <div class="form-group"><label for="physicalAddress">Physical Address:</label><input type="text" id="physicalAddress" name="physicalAddress" required class="auto-resize"></div>
+                    <div class="form-group"><label for="telephoneNumber">Telephone Number:</label><input type="text" id="telephoneNumber" name="telephoneNumber" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="city">City:</label><input type="text" id="city" name="city" required></div>
+                    <div class="form-group"><label for="city">City:</label><input type="text" id="city" name="city" required class="auto-resize"></div>
                     <div class="form-group">
                         <label for="state">State:</label>
-                        <select id="state" name="state" required>
+                        <select id="state" name="state" required class="auto-resize">
                             <option value="">Select State</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
@@ -216,11 +237,11 @@
                             <option value="WY">Wyoming</option>
                         </select>
                     </div>
-                    <div class="form-group"><label for="zip">Zip:</label><input type="text" id="zip" name="zip" required></div>
+                    <div class="form-group"><label for="zip">Zip:</label><input type="text" id="zip" name="zip" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="federalTaxId">Federal Tax ID:</label><input type="text" id="federalTaxId" name="federalTaxId" required></div>
-                    <div class="form-group"><label for="dateBusinessStarted">Date Business Started:</label><input type="date" id="dateBusinessStarted" name="dateBusinessStarted" required></div>
+                    <div class="form-group"><label for="federalTaxId">Federal Tax ID:</label><input type="text" id="federalTaxId" name="federalTaxId" required class="auto-resize"></div>
+                    <div class="form-group"><label for="dateBusinessStarted">Date Business Started:</label><input type="date" id="dateBusinessStarted" name="dateBusinessStarted" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -232,9 +253,9 @@
                     </div>
                     <div class="form-group hidden" id="websiteFieldGroup">
                         <label for="website">Website URL:</label>
-                        <input type="text" id="website" name="website" placeholder="https://www.example.com">
+                        <input type="text" id="website" name="website" placeholder="https://www.example.com" class="auto-resize">
                     </div>
-                    <div class="form-group"><label for="emailAddress">Email Address:</label><input type="email" id="emailAddress" name="emailAddress" required></div>
+                    <div class="form-group"><label for="emailAddress">Email Address:</label><input type="email" id="emailAddress" name="emailAddress" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -250,7 +271,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="businessType">Industry Type:</label>
-                        <select id="businessType" name="businessType" required>
+                        <select id="businessType" name="businessType" required class="auto-resize">
                             <option value="">Select a business type</option>
                             <option value="Retail Store">Retail Store</option>
                             <option value="Restaurant / Food Service">Restaurant / Food Service</option>
@@ -273,17 +294,17 @@
                     </div>
                     <div class="form-group hidden" id="other-industry-group">
                         <label for="otherIndustryType">Specify Other Industry:</label>
-                        <input type="text" id="otherIndustryType" name="otherIndustryType" maxlength="20" placeholder="e.g., Landscaping Services">
+                        <input type="text" id="otherIndustryType" name="otherIndustryType" maxlength="20" placeholder="e.g., Landscaping Services" class="auto-resize">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="monthlyGrossIncome">Monthly Gross Income (Avg.):</label><input type="text" id="monthlyGrossIncome" name="monthlyGrossIncome" required></div>
-                    <div class="form-group"><label for="fundingAmountRequest">Funding Amount Request:</label><input type="text" id="fundingAmountRequest" name="fundingAmountRequest" required></div>
+                    <div class="form-group"><label for="monthlyGrossIncome">Monthly Gross Income (Avg.):</label><input type="text" id="monthlyGrossIncome" name="monthlyGrossIncome" required class="auto-resize"></div>
+                    <div class="form-group"><label for="fundingAmountRequest">Funding Amount Request:</label><input type="text" id="fundingAmountRequest" name="fundingAmountRequest" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fundingReason">Primary reason for seeking funding:</label>
-                        <select id="fundingReason" name="fundingReason" required>
+                        <select id="fundingReason" name="fundingReason" required class="auto-resize">
                             <option value="">Select a reason</option>
                             <option value="General Working Capital / Cash Flow">General Working Capital / Cash Flow</option>
                             <option value="Inventory Purchase">Inventory Purchase</option>
@@ -304,7 +325,7 @@
                     </div>
                     <div class="form-group hidden" id="other-funding-group">
                         <label for="otherFundingReason">Specify Other Reason:</label>
-                        <input type="text" id="otherFundingReason" name="otherFundingReason" maxlength="20" placeholder="e.g., Tax payments">
+                        <input type="text" id="otherFundingReason" name="otherFundingReason" maxlength="20" placeholder="e.g., Tax payments" class="auto-resize">
                     </div>
                 </div>
 
@@ -316,18 +337,18 @@
 
                 <div class="section-title">MERCHANT/OWNER INFORMATION</div>
                 <div class="form-row">
-                    <div class="form-group"><label for="corporateOwnerName">Corporate Officer/Owner Name:</label><input type="text" id="corporateOwnerName" name="corporateOwnerName" required></div>
-                    <div class="form-group"><label for="ownerTitle">Title:</label><input type="text" id="ownerTitle" name="ownerTitle" required></div>
+                    <div class="form-group"><label for="corporateOwnerName">Corporate Officer/Owner Name:</label><input type="text" id="corporateOwnerName" name="corporateOwnerName" required class="auto-resize"></div>
+                    <div class="form-group"><label for="ownerTitle">Title:</label><input type="text" id="ownerTitle" name="ownerTitle" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="ownershipPercentage">Ownership Percentage:</label><input type="text" id="ownershipPercentage" name="ownershipPercentage" required></div>
-                    <div class="form-group"><label for="ownerHomeAddress">Home Address:</label><input type="text" id="ownerHomeAddress" name="ownerHomeAddress" required></div>
+                    <div class="form-group"><label for="ownershipPercentage">Ownership Percentage:</label><input type="text" id="ownershipPercentage" name="ownershipPercentage" required class="auto-resize"></div>
+                    <div class="form-group"><label for="ownerHomeAddress">Home Address:</label><input type="text" id="ownerHomeAddress" name="ownerHomeAddress" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="ownerCity">City:</label><input type="text" id="ownerCity" name="ownerCity" required></div>
+                    <div class="form-group"><label for="ownerCity">City:</label><input type="text" id="ownerCity" name="ownerCity" required class="auto-resize"></div>
                     <div class="form-group">
                         <label for="ownerState">State:</label>
-                        <select id="ownerState" name="ownerState" required>
+                        <select id="ownerState" name="ownerState" required class="auto-resize">
                             <option value="">Select State</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
@@ -381,46 +402,38 @@
                             <option value="WY">Wyoming</option>
                         </select>
                     </div>
-                    <div class="form-group"><label for="ownerZip">Zip:</label><input type="text" id="ownerZip" name="ownerZip" required></div>
+                    <div class="form-group"><label for="ownerZip">Zip:</label><input type="text" id="ownerZip" name="ownerZip" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="ownerSsn">Social Security Number (SSN):</label><input type="text" id="ownerSsn" name="ownerSsn" required></div>
-                    <div class="form-group"><label for="ownerDob">Date of Birth:</label><input type="date" id="ownerDob" name="ownerDob" required></div>
+                    <div class="form-group"><label for="ownerSsn">Social Security Number (SSN):</label><input type="text" id="ownerSsn" name="ownerSsn" required class="auto-resize"></div>
+                    <div class="form-group"><label for="ownerDob">Date of Birth:</label><input type="date" id="ownerDob" name="ownerDob" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="ownerFicoScore">FICO Score:</label>
-                        <select id="ownerFicoScore" name="ownerFicoScore" required>
+                        <select id="ownerFicoScore" name="ownerFicoScore" required class="auto-resize">
                             <option value="">Select...</option>
-                            <script>
-                                const ficoSelect = document.getElementById('ownerFicoScore');
-                                for (let i = 300; i <= 850; i++) {
-                                    const option = document.createElement('option');
-                                    option.value = i;
-                                    option.textContent = i;
-                                    ficoSelect.appendChild(option);
-                                }
-                            </script>
+                            <!-- FICO options are dynamically generated via JS -->
                         </select>
                     </div>
-                    <div class="form-group"><label for="ownerCellNumber">Cell Number:</label><input type="text" id="ownerCellNumber" name="ownerCellNumber" required></div>
+                    <div class="form-group"><label for="ownerCellNumber">Cell Number:</label><input type="text" id="ownerCellNumber" name="ownerCellNumber" required class="auto-resize"></div>
                 </div>
 
                 <div class="section-title">PARTNER INFORMATION</div>
                 <p>Please provide information for all owners with 20% or more ownership.</p>
                 <div class="form-row">
-                    <div class="form-group"><label for="partnerName1">Partner Name:</label><input type="text" id="partnerName1" name="partnerName1"></div>
-                    <div class="form-group"><label for="partnerTitle1">Title:</label><input type="text" id="partnerTitle1" name="partnerTitle1"></div>
+                    <div class="form-group"><label for="partnerName1">Partner Name:</label><input type="text" id="partnerName1" name="partnerName1" class="auto-resize"></div>
+                    <div class="form-group"><label for="partnerTitle1">Title:</label><input type="text" id="partnerTitle1" name="partnerTitle1" class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="partnerOwnershipPercentage1">Ownership Percentage:</label><input type="text" id="partnerOwnershipPercentage1" name="partnerOwnershipPercentage1"></div>
-                    <div class="form-group"><label for="partnerHomeAddress1">Home Address:</label><input type="text" id="partnerHomeAddress1" name="partnerHomeAddress1"></div>
+                    <div class="form-group"><label for="partnerOwnershipPercentage1">Ownership Percentage:</label><input type="text" id="partnerOwnershipPercentage1" name="partnerOwnershipPercentage1" class="auto-resize"></div>
+                    <div class="form-group"><label for="partnerHomeAddress1">Home Address:</label><input type="text" id="partnerHomeAddress1" name="partnerHomeAddress1" class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="partnerCity1">City:</label><input type="text" id="partnerCity1" name="partnerCity1"></div>
+                    <div class="form-group"><label for="partnerCity1">City:</label><input type="text" id="partnerCity1" name="partnerCity1" class="auto-resize"></div>
                     <div class="form-group">
                         <label for="partnerState1">State:</label>
-                        <select id="partnerState1" name="partnerState1">
+                        <select id="partnerState1" name="partnerState1" class="auto-resize">
                             <option value="">Select State</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
@@ -474,29 +487,21 @@
                             <option value="WY">Wyoming</option>
                         </select>
                     </div>
-                    <div class="form-group"><label for="partnerZip1">Zip:</label><input type="text" id="partnerZip1" name="partnerZip1"></div>
+                    <div class="form-group"><label for="partnerZip1">Zip:</label><input type="text" id="partnerZip1" name="partnerZip1" class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="partnerSsn1">Social Security Number (SSN):</label><input type="text" id="partnerSsn1" name="partnerSsn1"></div>
-                    <div class="form-group"><label for="partnerDob1">Date of Birth:</label><input type="date" id="partnerDob1" name="partnerDob1"></div>
+                    <div class="form-group"><label for="partnerSsn1">Social Security Number (SSN):</label><input type="text" id="partnerSsn1" name="partnerSsn1" class="auto-resize"></div>
+                    <div class="form-group"><label for="partnerDob1">Date of Birth:</label><input type="date" id="partnerDob1" name="partnerDob1" class="auto-resize"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="partnerFicoScore1">FICO Score:</label>
-                        <select id="partnerFicoScore1" name="partnerFicoScore1">
+                        <select id="partnerFicoScore1" name="partnerFicoScore1" class="auto-resize">
                             <option value="">Select...</option>
-                            <script>
-                                const partnerFicoSelect = document.getElementById('partnerFicoScore1');
-                                for (let i = 300; i <= 850; i++) {
-                                    const option = document.createElement('option');
-                                    option.value = i;
-                                    option.textContent = i;
-                                    partnerFicoSelect.appendChild(option);
-                                }
-                            </script>
+                            <!-- FICO options are dynamically generated via JS -->
                         </select>
                     </div>
-                    <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="text" id="partnerCellNumber1" name="partnerCellNumber1"></div>
+                    <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="text" id="partnerCellNumber1" name="partnerCellNumber1" class="auto-resize"></div>
                 </div>
             </section>
             
@@ -559,11 +564,11 @@
                 </div>
                 
                 <div class="form-row">
-                    <div class="form-group"><label for="fullName">Full Name:</label><input type="text" id="fullName" name="fullName" required></div>
-                    <div class="form-group"><label for="phoneNumber">Phone Number:</label><input type="text" id="phoneNumber" name="phoneNumber" required></div>
+                    <div class="form-group"><label for="fullName">Full Name:</label><input type="text" id="fullName" name="fullName" required class="auto-resize"></div>
+                    <div class="form-group"><label for="phoneNumber">Phone Number:</label><input type="text" id="phoneNumber" name="phoneNumber" required class="auto-resize"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label for="companyName">Business Name:</label><input type="text" id="companyName" name="companyName" required></div>
+                    <div class="form-group"><label for="companyName">Business Name:</label><input type="text" id="companyName" name="companyName" required class="auto-resize"></div>
                 </div>
                 
                 <label for="disclosure">Disclosure / Terms & Conditions</label>
@@ -600,6 +605,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <script>
+        // Populate FICO dropdowns
+        const ficoSelect = document.getElementById('ownerFicoScore');
+        const partnerFicoSelect = document.getElementById('partnerFicoScore1');
+        if (ficoSelect) {
+            for (let i = 300; i <= 850; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                ficoSelect.appendChild(option);
+            }
+        }
+        if (partnerFicoSelect) {
+            for (let i = 300; i <= 850; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                partnerFicoSelect.appendChild(option);
+            }
+        }
+
         // Website field toggle functionality
         document.getElementById('hasWebsiteYes').addEventListener('change', function() {
             if (this.checked) {
@@ -744,7 +769,6 @@
             if (!agreementCheckbox.checked) {
                 e.preventDefault();
                 document.getElementById('signatureError').style.display = 'block';
-                // Scroll to error message
                 document.getElementById('signatureError').scrollIntoView({behavior: 'smooth'});
             }
         });
@@ -829,13 +853,53 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // Auto-resizing textarea
+        // Auto-resizing for all .auto-resize fields (input, textarea, select)
+        function autoResizeField(field) {
+            if (field.tagName === "TEXTAREA") {
+                field.style.height = 'auto';
+                field.style.height = (field.scrollHeight) + 'px';
+            } else if (field.tagName === "INPUT" && field.type === "text") {
+                // Only auto-resize width if not empty
+                let tmpSpan = document.createElement('span');
+                tmpSpan.style.visibility = 'hidden';
+                tmpSpan.style.whiteSpace = 'pre';
+                tmpSpan.style.font = window.getComputedStyle(field).font;
+                tmpSpan.textContent = field.value || field.placeholder || '';
+                document.body.appendChild(tmpSpan);
+                let newWidth = Math.max(460, tmpSpan.offsetWidth + 20); // min 460px, stretch as needed
+                field.style.width = newWidth + 'px';
+                document.body.removeChild(tmpSpan);
+            }
+        }
+
+        document.querySelectorAll('.auto-resize').forEach(field => {
+            if (field.tagName === "TEXTAREA") {
+                field.addEventListener('input', function () {
+                    autoResizeField(this);
+                });
+                // Initial resize for prefilled content
+                autoResizeField(field);
+            } else if (field.tagName === "INPUT" && field.type === "text") {
+                field.addEventListener('input', function () {
+                    autoResizeField(this);
+                });
+                // Initial resize for prefilled content
+                autoResizeField(field);
+            }
+        });
+
+        // Specific auto-resize for the main notes/textarea
         const textarea = document.getElementById('my-textarea');
         if (textarea) {
             textarea.addEventListener('input', function() {
                 this.style.height = 'auto'; // reset height
                 this.style.height = this.scrollHeight + 'px'; // set height to fit content
             });
+            textarea.style.width = '460px';
+            textarea.style.minWidth = '80px';
+            textarea.style.maxWidth = '100%';
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
         }
     </script>
 </body>
