@@ -1,769 +1,636 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Express Capital Associates Application</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; line-height: 1.6; }
-        .header { text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
-        h1 { font-size: 24px; color: #1a4d2e; }
-        h2 { font-size: 20px; margin-top: 30px; border-bottom: 1px solid #ccc; padding-bottom: 5px; color: #1a4d2e; }
-        .form-section { background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .form-row { display: flex; flex-wrap: wrap; margin-bottom: 15px; }
-        .form-group { flex: 1 1 45%; margin-right: 10px; }
-        .form-group:last-child { margin-right: 0; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="text"], input[type="email"], input[type="date"], select, textarea {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Express Capital Network Associates - Application</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f4f0;
+        color: #04420f;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+    }
+
+    .form-wrapper {
+        width: 100%;
+        max-width: 900px;
+        margin: 20px;
+        background-color: #fff;
+        border: 4px solid #14591c;
+        padding: 30px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-banner {
+        background-color: #14591c;
+        padding: 20px;
+        color: #fff;
+        text-align: center;
+        margin: -30px -30px 20px -30px;
+        border-bottom: 4px solid #14591c;
+        border-radius: 4px 4px 0 0;
+    }
+
+    h1, h2 {
+        margin: 0;
+        font-weight: bold;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-top: 5px;
+    }
+
+    h3 {
+        font-size: 22px;
+        color: #14591c;
+        border-bottom: 2px solid #e6ebea;
+        padding-bottom: 5px;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 45%;
+    }
+
+    /* Style for the new row to group Legal Name and DBA */
+    .form-group-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 100%;
+    }
+    
+    label {
+        font-weight: bold;
+        color: #04420f;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], textarea {
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #14591c;
+        border-radius: 4px;
+        background-color: #e6ebea;
+        color: #04420f;
+        box-sizing: border-box;
+        font-weight: 600;
+        width: auto;
+        min-width: 150px;
+    }
+    
+    select {
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #14591c;
+        border-radius: 4px;
+        background-color: #e6ebea;
+        color: #04420f;
+        box-sizing: border-box;
+        width: 100%;
+        font-weight: 600;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: #0f934b;
+        box-shadow: 0 0 5px rgba(15, 147, 75, 0.5);
+    }
+    
+    input[type="radio"] {
+        width: auto;
+        min-width: unset;
+        margin-right: 5px;
+    }
+
+    .form-group.full-width {
+        flex: 1 1 100%;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+    
+    .radio-group label {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .note-container {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 15px;
+        color: #033d19;
+    }
+
+    .note-container .emoji {
+        margin-right: 10px;
+        animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(5px); }
+    }
+
+    .buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: #14591c;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0f934b;
+    }
+
+    @media (max-width: 768px) {
+        .form-group {
+            flex: 1 1 100%;
         }
-        input[type="radio"] { margin-right: 5px; }
-        .checkbox-group label { font-weight: normal; display: inline; }
-        .checkbox-group { margin-bottom: 15px; }
-        .hidden { display: none; }
-        .section-title { font-size: 18px; font-weight: bold; color: #1a4d2e; margin-top: 20px; }
-        .highlight { color: #d68019; }
-        .fax-header { font-weight: bold; text-align: center; font-size: 18px; margin-bottom: 15px; }
-        .disclosure-container { border: 1px solid #ccc; padding: 15px; max-height: 200px; overflow-y: scroll; font-size: 12px; margin-bottom: 15px; }
-        .buttons { text-align: center; margin-top: 20px; }
-        button, .anchor-btn {
-            background-color: #1a4d2e;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-            transition: background-color 0.3s;
+        
+        .buttons {
+            flex-direction: column;
         }
-        button:hover, .anchor-btn:hover { background-color: #2b6a48; }
-        .signature-pad {
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            height: 150px;
-            background-color: #fff;
-            margin-top: 10px;
-            cursor: not-allowed;
-        }
-        .signature-pad-container { text-align: center; }
-        .yellow-highlight {
-            background-color: yellow;
-            font-weight: bold;
-            padding: 2px 4px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-        .document-upload-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .document-upload-row .checkbox-label {
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-        }
-        .document-upload-row .checkbox-label input[type="checkbox"] {
-            margin-right: 10px;
-        }
-        .signature-error {
-            color: #d9534f;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            display: none;
-        }
-        .signature-error button {
-            background-color: #d9534f;
-            margin-top: 10px;
-        }
-        .signature-error button:hover {
-            background-color: #c9302c;
-        }
-        .button-row {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        @media (max-width: 600px) {
-            .form-group { flex: 1 1 100%; margin-right: 0; }
-            .form-row { flex-direction: column; }
-            .button-row {
-                flex-direction: column;
-                align-items: center;
-            }
-            .button-row button, .button-row .anchor-btn {
-                width: 100%;
-                margin: 5px 0;
-            }
-        }
-        @media print {
-            body {
-                background-color: white;
-                margin: 0;
-            }
-            .header, .buttons, .anchor-btn, .section-title, .document-uploads {
-                display: none;
-            }
-            .form-section, .signature-section {
-                box-shadow: none;
-                background-color: white;
-            }
-            .container {
-                max-width: none;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
-    <div class="container" id="formWrapper">
-        <header class="header">
-            <h1>Express Capital Network Associates</h1>
-        </header>
-
-        <form id="unifiedForm" action="https://formspree.io/f/movnqkgb" method="POST" enctype="multipart/form-data">
-            <section id="application" class="form-section">
-                <h2>Application for Funding</h2>
-                <div class="section-title">BUSINESS INFORMATION</div>
-                <div class="form-row">
-                    <div class="form-group"><label for="legalCorporateName">Legal Corporate Name:</label><input type="text" id="legalCorporateName" name="legalCorporateName" required></div>
-                    <div class="form-group"><label for="dba">DBA (Doing Business As):</label><input type="text" id="dba" name="dba"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="physicalAddress">Physical Address:</label><input type="text" id="physicalAddress" name="physicalAddress" required></div>
-                    <div class="form-group"><label for="telephoneNumber">Telephone Number:</label><input type="text" id="telephoneNumber" name="telephoneNumber" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="city">City:</label><input type="text" id="city" name="city" required></div>
-                    <div class="form-group">
-                        <label for="state">State:</label>
-                        <select id="state" name="state" required>
-                            <option value="">Select State</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DE">Delaware</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="IA">Iowa</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="ME">Maine</option>
-                            <option value="MD">Maryland</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MT">Montana</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NY">New York</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VT">Vermont</option>
-                            <option value="VA">Virginia</option>
-                            <option value="WA">Washington</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WY">Wyoming</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label for="zip">Zip:</label><input type="text" id="zip" name="zip" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="federalTaxId">Federal Tax ID:</label><input type="text" id="federalTaxId" name="federalTaxId" required></div>
-                    <div class="form-group"><label for="dateBusinessStarted">Date Business Started:</label><input type="date" id="dateBusinessStarted" name="dateBusinessStarted" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Do you have a website?</label>
-                        <div class="checkbox-group">
-                            <label><input type="radio" name="hasWebsite" value="yes" id="hasWebsiteYes"> Yes</label>
-                            <label><input type="radio" name="hasWebsite" value="no" id="hasWebsiteNo" checked> No</label>
-                        </div>
-                    </div>
-                    <div class="form-group hidden" id="websiteFieldGroup">
-                        <label for="website">Website URL:</label>
-                        <input type="text" id="website" name="website" placeholder="https://www.example.com">
-                    </div>
-                    <div class="form-group"><label for="emailAddress">Email Address:</label><input type="email" id="emailAddress" name="emailAddress" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Type of Entity:</label>
-                        <div class="checkbox-group">
-                            <label><input type="radio" name="entityType" value="Corporation" required> Corporation</label>
-                            <label><input type="radio" name="entityType" value="LLC"> LLC</label>
-                            <label><input type="radio" name="entityType" value="Partnership"> Partnership</label>
-                            <label><input type="radio" name="entityType" value="Sole Proprietor"> Sole Proprietor</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="businessType">Industry Type:</label>
-                        <select id="businessType" name="businessType" required>
-                            <option value="">Select a business type</option>
-                            <option value="Retail Store">Retail Store</option>
-                            <option value="Restaurant / Food Service">Restaurant / Food Service</option>
-                            <option value="E-commerce / Online Store">E-commerce / Online Store</option>
-                            <option value="Construction / Trades (Plumbing, Electrical, HVAC)">Construction / Trades (Plumbing, Electrical, HVAC)</option>
-                            <option value="Healthcare / Medical Practice">Healthcare / Medical Practice</option>
-                            <option value="Professional Services (Consulting, Legal, Accounting)">Professional Services (Consulting, Legal, Accounting)</option>
-                            <option value="Automotive (Repair, Dealership)">Automotive (Repair, Dealership)</option>
-                            <option value="Hospitality / Lodging (Hotels, Motels, B&Bs)">Hospitality / Lodging (Hotels, Motels, B&Bs)</option>
-                            <option value="Manufacturing / Production">Manufacturing / Production</option>
-                            <option value="Transportation / Logistics">Transportation / Logistics</option>
-                            <option value="Beauty Salon / Spa">Beauty Salon / Spa</option>
-                            <option value="Fitness / Gym">Fitness / Gym</option>
-                            <option value="Real Estate / Property Management">Real Estate / Property Management</option>
-                            <option value="Technology / Software">Technology / Software</option>
-                            <option value="Agriculture">Agriculture</option>
-                            <option value="Non-Profit Organization">Non-Profit Organization</option>
-                            <option value="Other">Other (Please specify)</option>
-                        </select>
-                    </div>
-                    <div class="form-group hidden" id="other-industry-group">
-                        <label for="otherIndustryType">Specify Other Industry:</label>
-                        <input type="text" id="otherIndustryType" name="otherIndustryType" maxlength="20" placeholder="e.g., Landscaping Services">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="monthlyGrossIncome">Monthly Gross Income (Avg.):</label><input type="text" id="monthlyGrossIncome" name="monthlyGrossIncome" required></div>
-                    <div class="form-group"><label for="fundingAmountRequest">Funding Amount Request:</label><input type="text" id="fundingAmountRequest" name="fundingAmountRequest" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fundingReason">Primary reason for seeking funding:</label>
-                        <select id="fundingReason" name="fundingReason" required>
-                            <option value="">Select a reason</option>
-                            <option value="General Working Capital / Cash Flow">General Working Capital / Cash Flow</option>
-                            <option value="Inventory Purchase">Inventory Purchase</option>
-                            <option value="Equipment Purchase or Repair">Equipment Purchase or Repair</option>
-                            <option value="Marketing & Advertising Campaigns">Marketing & Advertising Campaigns</option>
-                            <option value="Business Expansion / Renovation">Business Expansion / Renovation</option>
-                            <option value="Payroll Expenses">Payroll Expenses</option>
-                            <option value="Debt Consolidation">Debt Consolidation</option>
-                            <option value="Bridge Financing (e.g., waiting on invoices)">Bridge Financing (e.g., waiting on invoices)</option>
-                            <option value="Emergency Funds / Unexpected Expenses">Emergency Funds / Unexpected Expenses</option>
-                            <option value="Seasonal Business Needs">Seasonal Business Needs</option>
-                            <option value="New Product/Service Development">New Product/Service Development</option>
-                            <option value="Hiring New Staff">Hiring New Staff</option>
-                            <option value="Real Estate Acquisition">Real Estate Acquisition</option>
-                            <option value="Franchise Fee / Acquisition">Franchise Fee / Acquisition</option>
-                            <option value="Other">Other (Please specify)</option>
-                        </select>
-                    </div>
-                    <div class="form-group hidden" id="other-funding-group">
-                        <label for="otherFundingReason">Specify Other Reason:</label>
-                        <input type="text" id="otherFundingReason" name="otherFundingReason" maxlength="20" placeholder="e.g., Tax payments">
-                    </div>
-                </div>
-
-
-                <div class="section-title">MERCHANT/OWNER INFORMATION</div>
-                <div class="form-row">
-                    <div class="form-group"><label for="corporateOwnerName">Corporate Officer/Owner Name:</label><input type="text" id="corporateOwnerName" name="corporateOwnerName" required></div>
-                    <div class="form-group"><label for="ownerTitle">Title:</label><input type="text" id="ownerTitle" name="ownerTitle" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="ownershipPercentage">Ownership Percentage:</label><input type="text" id="ownershipPercentage" name="ownershipPercentage" required></div>
-                    <div class="form-group"><label for="ownerHomeAddress">Home Address:</label><input type="text" id="ownerHomeAddress" name="ownerHomeAddress" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="ownerCity">City:</label><input type="text" id="ownerCity" name="ownerCity" required></div>
-                    <div class="form-group">
-                        <label for="ownerState">State:</label>
-                        <select id="ownerState" name="ownerState" required>
-                            <option value="">Select State</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DE">Delaware</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="IA">Iowa</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="ME">Maine</option>
-                            <option value="MD">Maryland</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MT">Montana</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NY">New York</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VT">Vermont</option>
-                            <option value="VA">Virginia</option>
-                            <option value="WA">Washington</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WY">Wyoming</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label for="ownerZip">Zip:</label><input type="text" id="ownerZip" name="ownerZip" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="ownerSsn">Social Security Number (SSN):</label><input type="text" id="ownerSsn" name="ownerSsn" required></div>
-                    <div class="form-group"><label for="ownerDob">Date of Birth:</label><input type="date" id="ownerDob" name="ownerDob" required></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="ownerFicoScore">FICO Score:</label>
-                        <select id="ownerFicoScore" name="ownerFicoScore" required>
-                            <option value="">Select...</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label for="ownerCellNumber">Cell Number:</label><input type="text" id="ownerCellNumber" name="ownerCellNumber" required></div>
-                </div>
-                <div class="section-title">PARTNER INFORMATION</div>
-                <p>Please provide information for all owners with 20% or more ownership.</p>
-                <div class="form-row">
-                    <div class="form-group"><label for="partnerName1">Partner Name:</label><input type="text" id="partnerName1" name="partnerName1"></div>
-                    <div class="form-group"><label for="partnerTitle1">Title:</label><input type="text" id="partnerTitle1" name="partnerTitle1"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="partnerOwnershipPercentage1">Ownership Percentage:</label><input type="text" id="partnerOwnershipPercentage1" name="partnerOwnershipPercentage1"></div>
-                    <div class="form-group"><label for="partnerHomeAddress1">Home Address:</label><input type="text" id="partnerHomeAddress1" name="partnerHomeAddress1"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="partnerCity1">City:</label><input type="text" id="partnerCity1" name="partnerCity1"></div>
-                    <div class="form-group">
-                        <label for="partnerState1">State:</label>
-                        <select id="partnerState1" name="partnerState1">
-                            <option value="">Select State</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DE">Delaware</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="IA">Iowa</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="ME">Maine</option>
-                            <option value="MD">Maryland</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MT">Montana</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NY">New York</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VT">Vermont</option>
-                            <option value="VA">Virginia</option>
-                            <option value="WA">Washington</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WY">Wyoming</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label for="partnerZip1">Zip:</label><input type="text" id="partnerZip1" name="partnerZip1"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="partnerSsn1">Social Security Number (SSN):</label><input type="text" id="partnerSsn1" name="partnerSsn1"></div>
-                    <div class="form-group"><label for="partnerDob1">Date of Birth:</label><input type="date" id="partnerDob1" name="partnerDob1"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label for="partnerFicoScore1">FICO Score:</label>
-                        <select id="partnerFicoScore1" name="partnerFicoScore1">
-                            <option value="">Select...</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label for="partnerCellNumber1">Cell Number:</label><input type="text" id="partnerCellNumber1" name="partnerCellNumber1"></div>
-                </div>
-            </section>
-            
-            <section id="disclosure" class="form-section">
-                <h2>Disclosure & Authorization</h2>
-                <div class="disclosure-container">
-                    <p>PLEASE READ THIS DOCUMENT CAREFULLY. THIS IS A DISCLOSURE AND AUTHORIZATION TO OBTAIN INFORMATION FROM CONSUMER REPORTING AGENCIES. PLEASE CHECK THE BOX BELOW TO INDICATE THAT YOU HAVE READ AND UNDERSTAND THIS DISCLOSURE AND AUTHORIZATION.</p>
-                    <p>Authorization to Obtain Consumer Reports: I hereby authorize Express Capital Network Associates and its affiliates, agents, successors, and assigns (collectively, "Express Capital") to obtain, from any consumer reporting agency, including but not limited to TransUnion, Experian, and Equifax, consumer reports (e.g., credit reports) on me from time to time as Express Capital deems necessary in its sole discretion. This authorization applies to any consumer report that is not for employment purposes. I understand that Express Capital may obtain such reports in connection with any application I have submitted or may submit to Express Capital, and for any renewal, extension, or collection of any credit, loan, or other financial product or service that Express Capital may offer. I also understand that such consumer reports may include, without limitation, information on my credit history, creditworthiness, character, general reputation, personal characteristics, or mode of living. I understand that I am providing my Social Security Number (SSN) and Date of Birth (DOB) as a means of verifying my identity for these purposes and that Express Capital will use this information for no other purpose without my prior written consent.</p>
-                    <p>This authorization shall remain in effect for as long as I have any business relationship with Express Capital, including but not limited to any credit, loan, or other financial product or service, or until I revoke it in writing.</p>
-                    <p>By checking the box below, I certify that I have read, understand, and agree to the terms of this Disclosure and Authorization, and that all information I have provided on this application is true, accurate, and complete to the best of my knowledge. I acknowledge that I have received a copy of this Disclosure and Authorization for my records.</p>
-                </div>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" id="disclosureAccepted" name="disclosureAccepted" required> I have read and agree to the Disclosure and Authorization</label>
-                </div>
-            </section>
-
-            <section id="signature-section" class="form-section">
-                <h2>Electronic Signature</h2>
-                <div class="fax-header">Fax or Email to: <span class="highlight">info@expresscapital.com</span></div>
-                <p>By signing below, I certify that all information submitted is true, accurate, and complete. I authorize Express Capital to obtain consumer reports about me.</p>
-                <div class="signature-pad-container">
-                    <canvas id="signature-pad" class="signature-pad" width=400 height=150></canvas>
-                    <button type="button" class="anchor-btn" id="clear-signature">Clear Signature</button>
-                </div>
-            </section>
-            
-            <section id="document-uploads" class="form-section">
-                <h2>Required Documents</h2>
-                <p>The following documents are **required** to be submitted with this application. Please check the boxes to confirm you have included them and attach the files below. The file upload button will be available once you click the checkboxes to confirm you have the documents.</p>
-                <div class="document-upload-row">
-                    <div class="checkbox-label">
-                        <input type="checkbox" id="document1Check" required>
-                        <label for="document1Check">Past 3 months bank statements (All pages) <span class="yellow-highlight">REQUIRED</span></label>
-                    </div>
-                </div>
-                <div class="document-upload-row">
-                    <div class="checkbox-label">
-                        <input type="checkbox" id="document2Check" required>
-                        <label for="document2Check">Most recent business tax return <span class="yellow-highlight">REQUIRED</span></label>
-                    </div>
-                </div>
-                <div id="fileUploadsContainer" class="hidden">
-                    <p>Please upload your documents:</p>
-                    <input type="file" id="document1Upload" name="bankStatements" multiple>
-                    <input type="file" id="document2Upload" name="taxReturn" multiple>
-                </div>
-            </section>
-
-            <div class="signature-error" id="signatureError">
-                <p>You must provide a signature before submitting the form. Please use your mouse to sign in the box above.</p>
-            </div>
-
-            <div class="buttons">
-                <button type="submit" id="submitFormButton">Submit Application</button>
-            </div>
-        </form>
+<div class="form-wrapper">
+    <div class="header-banner">
+        <h1>EXPRESS CAPITAL NETWORK ASSOCIATES</h1>
+        <h2>Soaring Above the Competition</h2>
     </div>
 
-    <script>
-        // Start of new code for autosizing and snapshot
+    <form id="fundingForm" action="https://formspree.io/f/meolqqpr" method="POST">
+        <h3>BUSINESS INFORMATION</h3>
         
-        // Autosize textarea (simple)
-        function autosizeTextareas(root=document){
-            const textareas = root.querySelectorAll('textarea');
-            textareas.forEach(t => {
-                const resize = () => {
-                    t.style.height = 'auto';
-                    t.style.height = (t.scrollHeight) + 'px';
-                };
-                t.addEventListener('input', resize);
-                // initial
-                resize();
-            });
-        }
+        <div class="form-group-row">
+            <div class="form-group">
+                <label for="legalName">Legal Corporate Name:</label>
+                <input type="text" id="legalName" name="legalCorporateName" required>
+            </div>
+            <div class="form-group">
+                <label for="dba">DBA (Doing Business As):</label>
+                <input type="text" id="dba" name="dba">
+            </div>
+        </div>
+        
+        <div class="form-group full-width">
+            <label for="address">Physical Address:</label>
+            <input type="text" id="address" name="physicalAddress" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+            <label for="state">State:</label>
+            <select id="state" name="state" required>
+                <option value="">Select State</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="zip">Zip:</label>
+            <input type="text" id="zip" name="zip" required>
+        </div>
+        <div class="form-group">
+            <label for="businessPhone">Telephone Number:</label>
+            <input type="tel" id="businessPhone" name="businessPhone" required>
+        </div>
+        <div class="form-group">
+            <label for="federalTaxID">Federal Tax ID:</label>
+            <input type="text" id="federalTaxID" name="federalTaxID" required>
+        </div>
+        <div class="form-group">
+            <label for="businessStarted">Date Business Started:</label>
+            <input type="date" id="businessStarted" name="dateBusinessStarted" required>
+        </div>
+        <div class="form-group full-width">
+            <label>Do you have a website?</label>
+            <div class="radio-group">
+                <label><input type="radio" name="hasWebsite" value="Yes"> Yes</label>
+                <label><input type="radio" name="hasWebsite" value="No"> No</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="businessEmail">Email Address:</label>
+            <input type="email" id="businessEmail" name="businessEmail" required>
+        </div>
+        <div class="form-group">
+            <label>Type of Entity:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="entityType" value="Corporation"> Corporation</label>
+                <label><input type="radio" name="entityType" value="LLC"> LLC</label>
+                <label><input type="radio" name="entityType" value="Partnership"> Partnership</label>
+                <label><input type="radio" name="entityType" value="Sole Proprietor"> Sole Proprietor</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="industryType">Industry Type:</label>
+            <select id="industryType" name="industryType" required>
+                <option value="">Select a business type</option>
+                <option value="Retail Store">Retail Store</option>
+                <option value="Restaurant / Food Service">Restaurant / Food Service</option>
+                <option value="E-commerce / Online Store">E-commerce / Online Store</option>
+                <option value="Construction / Trades">Construction / Trades (Plumbing, Electrical, HVAC)</option>
+                <option value="Healthcare / Medical Practice">Healthcare / Medical Practice</option>
+                <option value="Professional Services">Professional Services (Consulting, Legal, Accounting)</option>
+                <option value="Automotive">Automotive (Repair, Dealership)</option>
+                <option value="Hospitality / Lodging">Hospitality / Lodging (Hotels, Motels, B&Bs)</option>
+                <option value="Manufacturing / Production">Manufacturing / Production</option>
+                <option value="Transportation / Logistics">Transportation / Logistics</option>
+                <option value="Beauty Salon / Spa">Beauty Salon / Spa</option>
+                <option value="Fitness / Gym">Fitness / Gym</option>
+                <option value="Real Estate / Property Management">Real Estate / Property Management</option>
+                <option value="Technology / Software">Technology / Software</option>
+                <option value="Agriculture">Agriculture</option>
+                <option value="Non-Profit Organization">Non-Profit Organization</option>
+                <option value="Other">Other (Please specify)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="monthlyGrossIncome">Monthly Gross Income (Avg.):</label>
+            <input type="text" id="monthlyGrossIncome" name="monthlyGrossIncome" placeholder="$" required>
+        </div>
+        <div class="form-group">
+            <label for="fundingAmount">Funding Amount Request:</label>
+            <input type="text" id="fundingAmount" name="fundingAmountRequest" placeholder="$" required>
+        </div>
+        <div class="form-group full-width">
+            <label for="fundingReason">Primary reason for seeking funding:</label>
+            <select id="fundingReason" name="fundingReason" required>
+                <option value="">Select a reason</option>
+                <option value="General Working Capital">General Working Capital / Cash Flow</option>
+                <option value="Inventory Purchase">Inventory Purchase</option>
+                <option value="Equipment Purchase">Equipment Purchase or Repair</option>
+                <option value="Marketing & Advertising">Marketing & Advertising Campaigns</option>
+                <option value="Business Expansion">Business Expansion / Renovation</option>
+                <option value="Payroll Expenses">Payroll Expenses</option>
+                <option value="Debt Consolidation">Debt Consolidation</option>
+                <option value="Bridge Financing">Bridge Financing (e.g., waiting on invoices)</option>
+                <option value="Emergency Funds">Emergency Funds / Unexpected Expenses</option>
+                <option value="Seasonal Business Needs">Seasonal Business Needs</option>
+                <option value="New Product/Service">New Product/Service Development</option>
+                <option value="Hiring New Staff">Hiring New Staff</option>
+                <option value="Real Estate Acquisition">Real Estate Acquisition</option>
+                <option value="Franchise Fee / Acquisition">Franchise Fee / Acquisition</option>
+                <option value="Other">Other (Please specify)</option>
+            </select>
+        </div>
+        
+        <h3>MERCHANT/OWNER INFORMATION</h3>
+        <div class="form-group">
+            <label for="ownerName">Corporate Officer/Owner Name:</label>
+            <input type="text" id="ownerName" name="ownerName" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerTitle">Title:</label>
+            <input type="text" id="ownerTitle" name="ownerTitle" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerPercentage">Ownership Percentage:</label>
+            <input type="number" id="ownerPercentage" name="ownershipPercentage" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerAddress">Home Address:</label>
+            <input type="text" id="ownerAddress" name="ownerHomeAddress" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerCity">City:</label>
+            <input type="text" id="ownerCity" name="ownerCity" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerState">State:</label>
+            <select id="ownerState" name="ownerState" required>
+                <option value="">Select State</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ownerZip">Zip:</label>
+            <input type="text" id="ownerZip" name="ownerZip" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerSSN">Social Security Number (SSN):</label>
+            <input type="text" id="ownerSSN" name="ownerSSN" pattern="\d{3}-\d{2}-\d{4}" placeholder="XXX-XX-XXXX" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerDOB">Date of Birth:</label>
+            <input type="date" id="ownerDOB" name="ownerDOB" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerFICO">FICO Score:</label>
+            <select id="ownerFICO" name="ownerFICO" required>
+                <option value="">Select...</option>
+                <script>
+                    for (let i = 300; i <= 850; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="ownerCell">Cell Number:</label>
+            <input type="tel" id="ownerCell" name="ownerCell" required>
+        </div>
 
-        // Optional: expand single-line inputs if needed (not common)
-        function autosizeInputs(root=document) {
-            const inputs = root.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]');
-            inputs.forEach(i => {
-                const mirror = document.createElement('span');
-                mirror.style.visibility='hidden';
-                mirror.style.whiteSpace='pre';
-                mirror.style.position='absolute';
-                mirror.style.font = getComputedStyle(i).font;
-                document.body.appendChild(mirror);
-                const resize = () => {
-                    mirror.textContent = i.value || i.placeholder || '';
-                    i.style.width = Math.max(120, mirror.offsetWidth + 30) + 'px';
-                };
-                i.addEventListener('input', resize);
-                resize();
-            });
-        }
+        <h3>PARTNER INFORMATION</h3>
+        <p>Please provide information for all owners with 20% or more ownership.</p>
+        <div class="form-group">
+            <label for="partnerName">Partner Name:</label>
+            <input type="text" id="partnerName" name="partnerName">
+        </div>
+        <div class="form-group">
+            <label for="partnerTitle">Title:</label>
+            <input type="text" id="partnerTitle" name="partnerTitle">
+        </div>
+        <div class="form-group">
+            <label for="partnerPercentage">Ownership Percentage:</label>
+            <input type="number" id="partnerPercentage" name="partnerOwnershipPercentage" min="0" max="100">
+        </div>
+        <div class="form-group">
+            <label for="partnerAddress">Home Address:</label>
+            <input type="text" id="partnerAddress" name="partnerHomeAddress">
+        </div>
+        <div class="form-group">
+            <label for="partnerCity">City:</label>
+            <input type="text" id="partnerCity" name="partnerCity">
+        </div>
+        <div class="form-group">
+            <label for="partnerState">State:</label>
+            <select id="partnerState" name="partnerState">
+                <option value="">Select State</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="partnerZip">Zip:</label>
+            <input type="text" id="partnerZip" name="partnerZip">
+        </div>
+        <div class="form-group">
+            <label for="partnerSSN">Social Security Number (SSN):</label>
+            <input type="text" id="partnerSSN" name="partnerSSN" pattern="\d{3}-\d{2}-\d{4}" placeholder="XXX-XX-XXXX">
+        </div>
+        <div class="form-group">
+            <label for="partnerDOB">Date of Birth:</label>
+            <input type="date" id="partnerDOB" name="partnerDOB">
+        </div>
+        <div class="form-group">
+            <label for="partnerFICO">FICO Score:</label>
+            <select id="partnerFICO" name="partnerFICO">
+                <option value="">Select...</option>
+                <script>
+                    for (let i = 300; i <= 850; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="partnerCell">Cell Number:</label>
+            <input type="tel" id="partnerCell" name="partnerCell">
+        </div>
 
-        // Utility: inline computed styles for an element (simple approach)
-        function inlineComputedStyles(el) {
-            const computed = getComputedStyle(el);
-            // list of properties to copy (add more if you rely on them)
-            const props = [
-                'display','position','width','height','margin','padding','border',
-                'font','font-size','font-family','font-weight','line-height',
-                'color','background','background-color','box-shadow','text-align',
-                'vertical-align','white-space','overflow','word-break', 'flex-grow'
-            ];
-            let styleStr = '';
-            props.forEach(p => {
-                try {
-                    const val = computed.getPropertyValue(p);
-                    if (val) styleStr += `${p}:${val};`;
-                } catch(e){}
-            });
-            return styleStr;
-        }
+        <div class="note-container full-width">
+            <span class="emoji">🎯</span>
+            <span>Please check your email for the second attachment to upload your documents</span>
+        </div>
 
-        // Recursively clone element and inline styles + replace form values
-        function cloneWithInlineStyles(node) {
-            if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.textContent);
+        <div class="buttons full-width">
+            <button type="submit">Submit Application</button>
+            <button type="button" id="printFormButton">Print Application</button>
+        </div>
+    </form>
+</div>
 
-            if (node.nodeType !== Node.ELEMENT_NODE) return document.createTextNode('');
-
-            const clone = node.cloneNode(false); // shallow clone
-            // inline computed styles
-            clone.setAttribute('style', inlineComputedStyles(node));
-
-            // handle form elements specially: copy values into static elements
-            if (node.tagName === 'INPUT') {
-                const type = node.type.toLowerCase();
-                if (type === 'checkbox' || type === 'radio') {
-                    if (node.checked) clone.setAttribute('checked','');
-                    // convert to disabled input to preserve look
-                    clone.setAttribute('disabled','');
-                } else {
-                    // create a span showing the value and style to match
-                    const span = document.createElement('span');
-                    span.textContent = node.value || '';
-                    span.setAttribute('style', inlineComputedStyles(node));
-                    return span;
-                }
-            } else if (node.tagName === 'TEXTAREA') {
-                const span = document.createElement('div');
-                span.textContent = node.value || '';
-                span.setAttribute('style', inlineComputedStyles(node) + 'white-space:pre-wrap;');
-                return span;
-            } else if (node.tagName === 'SELECT') {
-                const span = document.createElement('span');
-                span.textContent = (node.options[node.selectedIndex] && node.options[node.selectedIndex].text) || '';
-                span.setAttribute('style', inlineComputedStyles(node));
-                return span;
-            }
-
-            // clone children
-            node.childNodes.forEach(child => {
-                const clonedChild = cloneWithInlineStyles(child);
-                clone.appendChild(clonedChild);
-            });
-            return clone;
-        }
-
-        // Main: produce full standalone HTML snapshot string
-        function produceSnapshotHTML(formElement /* or container element */) {
-            const containerClone = cloneWithInlineStyles(formElement);
-
-            // Build document string
-            const html = `<!doctype html>
-            <html>
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width,initial-scale=1">
-                <title>Form Snapshot</title>
-                <style>
-                    /* Basic fallback styles so it looks like original site */
-                    body { margin: 16px; font-family: Arial, sans-serif; color: #222; }
-                </style>
-            </head>
-            <body>
-                ${containerClone.outerHTML}
-            </body>
-            </html>`;
-            return html;
-        }
-
-        // NEW: Function to send the snapshot via mailto
-        function sendSnapshotViaEmail(htmlString, recipientEmail, subject, bodyText) {
-            // Encode the HTML string to a data URI
-            const encodedHtml = encodeURIComponent(htmlString);
-            const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}\n\n(See attached file for the filled form)`
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Function to autosize all text-based input fields
+        const autosizeInputs = () => {
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], textarea');
             
-            // This is the tricky part. Mailto with attachments doesn't work consistently across browsers/clients.
-            // The best we can do is give a link to download the file.
-            const blob = new Blob([htmlString], {type: 'text/html'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "filled-form-snapshot.html";
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            URL.revokeObjectURL(url);
+            // Create a single hidden element to act as a mirror
+            const mirror = document.createElement('div');
+            mirror.style.position = 'absolute';
+            mirror.style.visibility = 'hidden';
+            mirror.style.whiteSpace = 'nowrap';
+            document.body.appendChild(mirror);
 
-            alert("A file has been downloaded. Please attach it to the email that just opened.");
-        }
+            inputs.forEach(input => {
+                const resize = () => {
+                    // Set the mirror's font and padding to match the input
+                    const style = window.getComputedStyle(input);
+                    mirror.style.font = style.font;
+                    mirror.style.padding = style.padding;
+                    
+                    // Set the mirror's text content to the input's value or placeholder
+                    mirror.textContent = input.value || input.placeholder || '';
+                    
+                    // Adjust the input's width based on the mirror's size
+                    input.style.width = mirror.offsetWidth + 'px';
+                };
+                
+                input.addEventListener('input', resize);
+                // Call resize initially to set the correct width on page load
+                resize();
+            });
+        };
 
-        // End of new code for autosizing and snapshot
+        autosizeInputs();
 
-        const unifiedForm = document.getElementById('unifiedForm');
-        const submitButton = document.getElementById('submitFormButton');
-        const signatureError = document.getElementById('signatureError');
-        const canvas = document.getElementById('signature-pad');
-        const signaturePad = new SignaturePad(canvas);
-
-        const hasWebsiteYes = document.getElementById('hasWebsiteYes');
-        const websiteFieldGroup = document.getElementById('websiteFieldGroup');
-        hasWebsiteYes.addEventListener('change', () => {
-            websiteFieldGroup.classList.toggle('hidden', !hasWebsiteYes.checked);
-        });
-
-        const industryTypeSelect = document.getElementById('businessType');
-        const otherIndustryGroup = document.getElementById('other-industry-group');
-        industryTypeSelect.addEventListener('change', () => {
-            otherIndustryGroup.classList.toggle('hidden', industryTypeSelect.value !== 'Other');
-        });
-
-        const fundingReasonSelect = document.getElementById('fundingReason');
-        const otherFundingGroup = document.getElementById('other-funding-group');
-        fundingReasonSelect.addEventListener('change', () => {
-            otherFundingGroup.classList.toggle('hidden', fundingReasonSelect.value !== 'Other');
-        });
-
-        const document1Check = document.getElementById('document1Check');
-        const document2Check = document.getElementById('document2Check');
-        const fileUploadsContainer = document.getElementById('fileUploadsContainer');
-        function toggleFileUploads() {
-            if (document1Check.checked && document2Check.checked) {
-                fileUploadsContainer.classList.remove('hidden');
-            } else {
-                fileUploadsContainer.classList.add('hidden');
-            }
-        }
-        document1Check.addEventListener('change', toggleFileUploads);
-        document2Check.addEventListener('change', toggleFileUploads);
-
-        const ficoSelect = document.getElementById('ownerFicoScore');
-        for (let i = 300; i <= 850; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = i;
-            ficoSelect.appendChild(option);
-        }
-
-        const partnerFicoSelect = document.getElementById('partnerFicoScore1');
-        for (let i = 300; i <= 850; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = i;
-            partnerFicoSelect.appendChild(option);
-        }
-
-        document.getElementById('clear-signature').addEventListener('click', function (e) {
+        const printButton = document.getElementById('printFormButton');
+        printButton.addEventListener('click', function(e) {
             e.preventDefault();
-            signaturePad.clear();
+            window.print();
         });
-
-        // Event listener for the form submission
-        unifiedForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            if (signaturePad.isEmpty()) {
-                signatureError.style.display = 'block';
-                return;
-            } else {
-                signatureError.style.display = 'none';
-            }
-
-            const formWrapper = document.getElementById('formWrapper');
-            const snapshotHtml = produceSnapshotHTML(formWrapper);
-
-            // Call the new mailto function
-            sendSnapshotViaEmail(
-                snapshotHtml,
-                'your-brothers-email@example.com', // **IMPORTANT: Replace with your brother's email address**
-                'Filled Application Form',
-                `Hello, I'm sending you the filled application. The completed form is attached to this email.`
-            );
-        });
-
-        // Resize canvas to fit container
-        function resizeCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            signaturePad.clear();
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        
-        // Initial call to autosize functions
-        document.addEventListener('DOMContentLoaded', () => {
-            autosizeTextareas();
-            autosizeInputs();
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
